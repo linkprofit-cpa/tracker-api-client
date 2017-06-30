@@ -1,0 +1,23 @@
+{
+    "name": "linkprofit-cpa/yii2-tracker-api-client",
+    "description": "Tracker api client",
+    "keywords": ["yii2", "api", "client"],
+    "homepage": "https://github.com/linkprofit-cpa/yii2-tracker-api-client",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Abramov Ivan",
+            "email": "ia@linkprofit.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "yiisoft/yii2": ">=2.0.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "linkprofit\\trackerApiClient": "src/"
+        }
+    }
+}
