@@ -74,7 +74,7 @@ class Request extends Object
         $response = $this->queryApi($url, $authToken, $this->prepareParams($params), $this->method);
 
         try {
-//            $this->parseResponse($response, $url, $params);
+            $this->parseResponse($response, $url, $params);
         } catch (ResponseException $e) {
             if ($e->getCode() == 111) {
                 $this->connection->connect($iteration);
@@ -138,13 +138,6 @@ class Request extends Object
         curl_setopt_array($ch, $curlOptions);
 
         $response = curl_exec($ch);
-
-        echo '<pre>';
-        var_dump($url);
-        var_dump($params);
-        var_dump($response);
-        echo PHP_EOL.'--------------------------------------</pre>';
-
         $this->requestHttpCode = curl_errno($ch) == 28 ? 'timeout' : curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         return !$response ? '' : $response;
