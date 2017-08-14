@@ -66,8 +66,6 @@ class Connection extends Component
             $authToken = $this->connect();
         }
 
-        var_dump($authToken);
-
         return $authToken;
     }
 
