@@ -12,7 +12,7 @@ class RequestHelper
      */
     public static $settingsForGet = [
         'auth' => [
-            'url' => '/authorization/employer',
+            'url' => '/authorization/user',
             'required' => ['userName','userPassword'],
             'filter' => [],
         ],
@@ -22,12 +22,12 @@ class RequestHelper
             'filter' => [],
         ],
         'offers' => [
-            'url' => '/administration/offers/read/list',
+            'url' => '/cabinet/user/read/offers',
             'required' => [],
             'filter' => ['merchantManagerId','categoryId','mainFilterItem','dateInsertedFrom','dateInsertedTo','active','types','fields','offset','limit','orderByField','orderByMethod'],
         ],
         'categories' => [
-            'url' => '/administration/categories/read',
+            'url' => '/cabinet/user/read/all/categories',
             'required' => [],
             'filter' => [],
         ],
