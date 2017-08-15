@@ -17,7 +17,7 @@ class RequestHelper
             'filter' => [],
         ],
         'offer' => [
-            'url' => '/administration/offer/read',
+            'url' => '/cabinet/user/read/offer',
             'required' => ['offerId'],
             'filter' => [],
         ],
@@ -32,7 +32,7 @@ class RequestHelper
             'filter' => [],
         ],
         'banners' => [
-            'url' => '/administration/banners/read/list',
+            'url' => '/cabinet/banners/read/list',
             'required' => [],
             'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
         ],
