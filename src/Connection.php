@@ -12,7 +12,7 @@ class Connection extends Component
     public $password = '';
     public $connectionTryLimit = 3;
 
-    const API_SESSION_KEY = 'trackerApiAuth';
+    const API_SESSION_KEY = 'apiAuth';
 
     /**
      * Инициализирует компонент
