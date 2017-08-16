@@ -76,7 +76,7 @@ class Request extends Object
         try {
             $this->parseResponse($response, $url, $params);
         } catch (ResponseException $e) {
-            if ($e->getCode() == 111) {
+            if ($e->getCode() == 111 || $e->getCode() == 110) {
                 $this->connection->connect($iteration);
                 $response = $this->get($object, $params, ++$iteration);
             } else {
@@ -171,6 +171,7 @@ class Request extends Object
                 case 107 : throw new ResponseException( 'Логин сотрудника не был передан в систему для аутентификации', 107, $response, $route, $params ); break;
                 case 108 : throw new ResponseException( 'Пароль сотрудника не был передан в систему для аутентификации', 108, $response, $route, $params ); break;
                 case 109 : throw new ResponseException( 'Сотрудник с таким логином и паролем не найден в системе', 109, $response, $route, $params ); break;
+                case 110 : throw new ResponseException( 'Пользователь не авторизован. Необходима авторизация (истек срок годности auth token)', 110, $response, $route, $params); break;
                 case 111 : throw new ResponseException( 'Сотрудник не авторизован, требуется повторная авторизация', 111, $response, $route, $params); break;
                 case 112 : throw new ResponseException( 'Сотрудник не имеет доступа к данной операции', 112, $response, $route, $params); break;
                 case 113 : throw new ResponseException( 'Пароль и его подтверждение не совпадают', 113, $response, $route, $params); break;
