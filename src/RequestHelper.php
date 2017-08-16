@@ -36,6 +36,16 @@ class RequestHelper
             'required' => [],
             'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
         ],
+        'countries' => [
+            'url' => '/cabinet/countries/read/list',
+            'required' => [],
+            'filter' => [],
+        ],
+        'traffic' => [
+            'url' => '/cabinet/read/traffic-types',
+            'required' => [],
+            'filter' => [],
+        ]
     ];
 
     /**
