@@ -37,8 +37,9 @@ class Connection
         $params = ['apiUrl', 'login', 'password'];
 
         foreach ($params as $param) {
-            if (empty($this->{$param}) && !is_string($this->{$param}))
+            if (empty($this->{$param}) && !is_string($this->{$param})) {
                 throw new ConnectionConfigException('You must set param '.$param);
+            }
         }
     }
 

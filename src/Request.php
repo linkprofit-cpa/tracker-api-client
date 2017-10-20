@@ -122,7 +122,9 @@ class Request
      */
     protected function queryApi($url, $authToken = null, $params = [], $method = 'PUT')
     {
-        if ($authToken !== null) $params['authToken'] = $authToken;
+        if ($authToken !== null) {
+            $params['authToken'] = $authToken;
+        }
 
         $ch = curl_init($this->connection->getApiUrl().$url);
 
