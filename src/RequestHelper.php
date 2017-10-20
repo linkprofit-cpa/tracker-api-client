@@ -16,6 +16,16 @@ class RequestHelper
             'required' => ['userName','userPassword'],
             'filter' => [],
         ],
+        'administratorAuth' => [
+            'url' => '/authorization/employer',
+            'required' => ['userName','userPassword'],
+            'filter' => [],
+        ],
+        'users' => [
+            'url' => '/administration/read/users/list',
+            'required' => [],
+            'filter' => [],
+        ],
         'offer' => [
             'url' => '/cabinet/user/read/offer',
             'required' => ['offerId'],
