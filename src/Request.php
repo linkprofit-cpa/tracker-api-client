@@ -1,11 +1,9 @@
 <?php
 namespace linkprofit\trackerApiClient;
-use Yii;
-use yii\base\Object;
-use yii\base\InvalidParamException;
-use yii\helpers\Json;
+
 use linkprofit\trackerApiClient\exceptions\RequestException;
 use linkprofit\trackerApiClient\exceptions\ResponseException;
+use linkprofit\trackerApiClient\exceptions\InvalidParamException;
 
 /**
  * Данный класс используется для получения данных от api
@@ -15,7 +13,7 @@ use linkprofit\trackerApiClient\exceptions\ResponseException;
  * Вторым параметром нужно передать $params - массив параметров запроса (обязательных и необязательных).
  * Конфигурация объектов находится в классе ApiConfig
  */
-class Request extends Object
+class Request
 {
     /**
      * @var Connection
@@ -160,7 +158,7 @@ class Request extends Object
         }
 
         try {
-            $decodedResponse = Json::decode($response);
+            $decodedResponse = json_decode($response, 1);
         } catch (InvalidParamException $e) {
             throw new ResponseException( 'Некорректный ответ сервиса.', 000, $response, $route, $params );
         }
