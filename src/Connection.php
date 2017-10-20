@@ -12,14 +12,20 @@ class Connection
     public $password = '';
     public $connectionTryLimit = 3;
 
+    /**
+     * @var FilesystemCache
+     */
+    protected $fileCache;
+
     const API_SESSION_KEY = 'apiAuth';
 
     /**
      * Инициализирует компонент
      */
-    public function init()
+    public function __construct()
     {
         $this->checkConfig();
+        $this->fileCache = new FilesystemCache();
     }
 
     /**
@@ -63,11 +69,13 @@ class Connection
      */
     public function getAuthToken()
     {
-        $authToken = Yii::$app->session->get(self::API_SESSION_KEY, null);
-
-        if (empty($authToken)) {
-            $authToken = $this->connect();
+        if ($this->fileCache->has(self::API_SESSION_KEY)) {
+            return $this->fileCache->get(self::API_SESSION_KEY);
         }
+
+        $authToken = $this->connect();
+
+        $this->fileCache->set(self::API_SESSION_KEY, $authToken);
 
         return $authToken;
     }
@@ -97,7 +105,6 @@ class Connection
         if (empty($apiResponse->authToken))
             throw new ConnectionException("Can't authorize! Check user name or password!");
 
-        Yii::$app->session->set(self::API_SESSION_KEY, $apiResponse->authToken);
         return $apiResponse->authToken;
     }
 }
