@@ -1,11 +1,11 @@
 <?php
 namespace linkprofit\trackerApiClient;
-use Yii;
-use yii\base\Component;
-use app\components\TrackerApi\exceptions\ConnectionConfigException;
-use app\components\TrackerApi\exceptions\ConnectionException;
 
-class Connection extends Component
+use linkprofit\trackerApiClient\exceptions\ConnectionConfigException;
+use linkprofit\trackerApiClient\exceptions\ConnectionException;
+use Symfony\Component\Cache\Simple\FilesystemCache;
+
+class Connection
 {
     public $apiUrl = '';
     public $login = '';
@@ -42,7 +42,10 @@ class Connection extends Component
      */
     public function request()
     {
-        return new Request(['connection' => $this]);
+        $request = new Request();
+        $request->connection = $this;
+
+        return $request;
     }
 
     /**
@@ -81,7 +84,9 @@ class Connection extends Component
             throw new ConnectionException("Can't authorize! The reconnection limit exhausted");
         }
 
-        $request = new Request(['connection' => $this]);
+        $request = new Request();
+        $request->connection = $this;
+
         $jsonApiResponse = $request->get('auth', [
             'userName' => $this->login,
             'userPassword' => $this->password,
