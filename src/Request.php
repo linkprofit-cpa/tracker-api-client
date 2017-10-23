@@ -67,7 +67,7 @@ class Request
         if (empty($url))
             throw new RequestException("Can't find url for this object: {$object}");
 
-        $authToken = $object == 'auth' ? null : $this->connection->getAuthToken();
+        $authToken = in_array($object, ['userAuth', 'administratorAuth']) ? null : $this->connection->getAuthToken();
 
         $response = $this->queryApi($url, $authToken, $this->prepareParams($params), $this->method);
 
