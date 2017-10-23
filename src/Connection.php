@@ -12,6 +12,7 @@ class Connection
     public $password = '';
     public $connectionTryLimit = 3;
     public $isAdmin = false;
+    public $useCache = true;
 
     /**
      * @var FilesystemCache
@@ -71,6 +72,11 @@ class Connection
      */
     public function getAuthToken()
     {
+        if ($this->useCache !== true) {
+            $authToken = $this->connect();
+            return $authToken;
+        }
+
         if ($this->fileCache->has(self::API_SESSION_KEY)) {
             return $this->fileCache->get(self::API_SESSION_KEY);
         }
