@@ -11,6 +11,7 @@ class Connection
     public $login = '';
     public $password = '';
     public $connectionTryLimit = 3;
+    public $isAdmin = false;
 
     /**
      * @var FilesystemCache
@@ -96,7 +97,13 @@ class Connection
         $request = new Request();
         $request->connection = $this;
 
-        $jsonApiResponse = $request->get('auth', [
+        if ($this->isAdmin === false) {
+            $authRoute = 'userAuth';
+        } else {
+            $authRoute = 'administratorAuth';
+        }
+
+        $jsonApiResponse = $request->get($authRoute, [
             'userName' => $this->login,
             'userPassword' => $this->password,
         ]);
