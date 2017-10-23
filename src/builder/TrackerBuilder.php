@@ -6,7 +6,10 @@ use Symfony\Component\Cache\Simple\FilesystemCache;
 
 abstract class TrackerBuilder
 {
-    public    $cacheDuration = 60 * 60 * 6;
+    /**
+     * @var int 60*60*6 seconds
+     */
+    public    $cacheDuration = 21600;
     protected $data;
     protected $entity;
     protected $params = [];
