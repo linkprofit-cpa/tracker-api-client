@@ -24,7 +24,7 @@ class RequestHelper
         'users' => [
             'url' => '/administration/read/users/list',
             'required' => [],
-            'filter' => ['limit'],
+            'filter' => ['limit','fields'],
         ],
         'offer' => [
             'url' => '/cabinet/user/read/offer',
