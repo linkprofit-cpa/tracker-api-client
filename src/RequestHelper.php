@@ -11,7 +11,7 @@ class RequestHelper
      * url - путь к объекту api, required - список обязательных полей, filter - список доступных фильтров
      */
     public static $settingsForGet = [
-        'auth' => [
+        'userAuth' => [
             'url' => '/authorization/user',
             'required' => ['userName','userPassword'],
             'filter' => [],
