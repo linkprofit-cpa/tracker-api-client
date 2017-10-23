@@ -7,5 +7,9 @@ $connection = new Connection();
 $connection->apiUrl = '';
 $connection->login = '';
 $connection->password = '';
+$connection->isAdmin = true;
 
-$offers = $connection->request()->get('offers');
+$users = new \linkprofit\trackerApiClient\builder\UsersBuilder();
+$users->get($connection);
+
+var_dump($users);
