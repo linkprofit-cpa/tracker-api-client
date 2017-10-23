@@ -14,6 +14,13 @@ class UsersBuilder extends TrackerBuilder
         return $this;
     }
 
+    public function fields($fields = [])
+    {
+        $this->params['fields'] = $fields;
+
+        return $this;
+    }
+
     protected function handle()
     {
         return $this->data;
