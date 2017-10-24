@@ -13,15 +13,28 @@ abstract class TrackerBuilder
     protected $data;
     protected $entity;
     protected $params = [];
+    protected $connection = null;
+
+    /**
+     * TrackerBuilder constructor.
+     * @param $connection
+     */
+    public function __construct(Connection $connection = null)
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * @param $connection Connection;
      * @return mixed
      */
-    public function get($connection)
+    public function get(Connection $connection = null)
     {
+        if (!empty($connection)) {
+            $this->connection = $connection;
+        }
         if ($this->cacheDuration === false) {
-            $this->data = json_decode($connection->request()->get($this->entity, $this->params), 1);
+            $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
             return $this->handle();
         }
 
@@ -29,7 +42,7 @@ abstract class TrackerBuilder
 
         $key = $this->entity . implode('', $this->params);
         if (!$cache->has($key)) {
-            $this->data = json_decode($connection->request()->get($this->entity, $this->params), 1);
+            $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
             $cache->set($key, $this->data, $this->cacheDuration);
         } else {
             $this->data = $cache->get($key);
