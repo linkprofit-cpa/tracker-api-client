@@ -1,8 +1,8 @@
 {
-    "name": "linkprofit-cpa/yii2-tracker-api-client",
+    "name": "linkprofit-cpa/tracker-api-client",
     "description": "Tracker api client",
     "keywords": ["yii2", "api", "client"],
-    "homepage": "https://github.com/linkprofit-cpa/yii2-tracker-api-client",
+    "homepage": "https://github.com/linkprofit-cpa/tracker-api-client",
     "license": "MIT",
     "authors": [
         {
