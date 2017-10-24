@@ -9,7 +9,7 @@ abstract class TrackerBuilder
     /**
      * @var int 60*60*6 seconds
      */
-    public    $cacheDuration = 21600;
+    protected $cacheDuration = 21600;
     protected $data;
     protected $entity;
     protected $params = [];
@@ -22,6 +22,14 @@ abstract class TrackerBuilder
     public function __construct(Connection $connection = null)
     {
         $this->connection = $connection;
+    }
+
+    /**
+     * @param int|bool $cacheDuration для отключения кэширования запросов используйте <b>false</b>
+     */
+    public function setCacheDuration($cacheDuration = 21600)
+    {
+        $this->cacheDuration = $cacheDuration;
     }
 
     /**
@@ -39,7 +47,6 @@ abstract class TrackerBuilder
         }
 
         $cache = new FilesystemCache();
-
         $key = $this->entity . md5(json_encode($this->params));
         if (!$cache->has($key)) {
             $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
