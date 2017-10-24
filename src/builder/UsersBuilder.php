@@ -39,7 +39,7 @@ class UsersBuilder extends TrackerBuilder
     public function fields($fields = [])
     {
         if(!empty($fields))
-            $this->params['fields'] = array_intersect(array_map('strtolower',$fields),$this->fieldsVars);
+            $this->params['fields'] = array_values(array_intersect(array_map('strtolower',$fields),$this->fieldsVars));
 
         return $this;
     }
@@ -51,7 +51,7 @@ class UsersBuilder extends TrackerBuilder
     public function statuses($statuses = [])
     {
         if (!empty($statuses))
-            $this->params['statuses'] = array_intersect(array_map('strtoupper',$statuses),['A','P','D']);
+            $this->params['statuses'] = array_values(array_intersect(array_map('strtoupper',$statuses),['A','P','D']));
         return $this;
     }
 
