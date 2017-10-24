@@ -40,7 +40,7 @@ abstract class TrackerBuilder
 
         $cache = new FilesystemCache();
 
-        $key = $this->entity . implode('', $this->params);
+        $key = $this->entity . md5(json_encode($this->params));
         if (!$cache->has($key)) {
             $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
             $cache->set($key, $this->data, $this->cacheDuration);
