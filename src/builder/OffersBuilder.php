@@ -89,11 +89,11 @@ class OffersBuilder extends TrackerBuilder
      */
     protected function addOffer($data)
     {
-        $this->offers[] = $this->handleOffer($data);
+        $this->offers[$data['offerId']] = $this->handleOffer($data);
     }
 
     protected function handleOffer($data)
     {
-        return [$data['offerId'], $data['name']];
+        return ['name' => $data['name'], 'offerId' => $data['offerId']];
     }
 }
