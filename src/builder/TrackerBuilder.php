@@ -25,7 +25,7 @@ abstract class TrackerBuilder
     }
 
     /**
-     * @param int $cacheDuration
+     * @param int|bool $cacheDuration для отключения кэширования запросов используйте <b>false</b>
      */
     public function setCacheDuration($cacheDuration = 21600)
     {
