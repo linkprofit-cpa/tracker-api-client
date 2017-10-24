@@ -6,6 +6,13 @@ namespace linkprofit\trackerApiClient\builder;
 class UsersBuilder extends TrackerBuilder
 {
     protected $entity = 'users';
+    private $fieldsVars = [
+        "userid", "refid", "username", "apikey",
+        "firstname", "lastname", "middlename",
+        "topname", "phone", "city", "regip",
+        "dateinserted", "datelastlogin",
+        "status", "commissionrate", "managerid",
+    ];
 
     /**
      * @param int $limit
@@ -32,7 +39,7 @@ class UsersBuilder extends TrackerBuilder
     public function fields($fields = [])
     {
         if(!empty($fields))
-            $this->params['fields'] = $fields;
+            $this->params['fields'] = array_intersect(array_map('strtolower',$fields),$this->fieldsVars);
 
         return $this;
     }
