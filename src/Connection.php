@@ -12,7 +12,10 @@ class Connection
     public $password = '';
     public $connectionTryLimit = 3;
     public $isAdmin = false;
-    public $useCache = true;
+    /**
+     * @var bool
+     */
+    public $cacheConnect = true;
 
     /**
      * @var FilesystemCache
@@ -72,7 +75,7 @@ class Connection
      */
     public function getAuthToken()
     {
-        if ($this->useCache !== true) {
+        if ($this->cacheConnect !== true) {
             $authToken = $this->connect();
             return $authToken;
         }
