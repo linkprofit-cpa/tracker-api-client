@@ -31,8 +31,13 @@ class RequestHelper
             'required' => ['offerId'],
             'filter' => [],
         ],
-        'offers' => [
+        'userOffers' => [
             'url' => '/cabinet/user/read/offers',
+            'required' => [],
+            'filter' => ['merchantManagerId','categoryId','mainFilterItem','dateInsertedFrom','dateInsertedTo','active','types','fields','offset','limit','orderByField','orderByMethod'],
+        ],
+        'administratorOffers' => [
+            'url' => '/administration/offers/read/list',
             'required' => [],
             'filter' => ['merchantManagerId','categoryId','mainFilterItem','dateInsertedFrom','dateInsertedTo','active','types','fields','offset','limit','orderByField','orderByMethod'],
         ],
