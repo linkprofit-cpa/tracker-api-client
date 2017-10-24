@@ -23,6 +23,9 @@ class UsersBuilder extends TrackerBuilder
 
     protected function handle()
     {
-        return $this->data;
+        foreach ($this->data['data'] as &$user){
+            $user = array_filter($user);
+        }
+        return $this->data['data'];
     }
 }
