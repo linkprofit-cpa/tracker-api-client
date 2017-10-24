@@ -55,6 +55,9 @@ class Request
      */
     public function get($object, $params = [], $iteration = 0)
     {
+        if ($object == 'offers') {
+            $object = ($this->connection->isAdmin === false) ? 'userOffers' : 'administratorOffers';
+        }
         $this->object = $object;
         $this->requiredParams = RequestHelper::getObjectSettings($object, 'required');
         $this->filterParams = RequestHelper::getObjectSettings($object, 'filter');
