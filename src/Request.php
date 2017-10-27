@@ -30,6 +30,10 @@ class Request
 
     protected $apiCallCount;
 
+    protected $dualRoutes = [
+        'offers', 'banners'
+    ];
+
     /**
      * Метод используется для получения данных из трекера
      * @param $object string Название объекта, для которого будет осуществлен запрос к трекеру
@@ -55,8 +59,9 @@ class Request
      */
     public function get($object, $params = [], $iteration = 0)
     {
-        if ($object == 'offers') {
-            $object = ($this->connection->isAdmin === false) ? 'userOffers' : 'administratorOffers';
+        if (in_array($object, $this->dualRoutes)) {
+            $status = ($this->connection->isAdmin === false) ? 'user' : 'administrator';
+            $object = $status . ucfirst($object);
         }
         $this->object = $object;
         $this->requiredParams = RequestHelper::getObjectSettings($object, 'required');
