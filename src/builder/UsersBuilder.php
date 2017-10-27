@@ -20,8 +20,7 @@ class UsersBuilder extends TrackerBuilder
      */
     public function limit($limit = 100)
     {
-        if(!empty($limit))
-            $this->params['limit'] = $limit;
+        $this->params['limit'] = (integer)$limit;
 
         return $this;
     }
