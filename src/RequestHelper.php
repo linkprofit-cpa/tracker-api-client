@@ -46,8 +46,13 @@ class RequestHelper
             'required' => [],
             'filter' => [],
         ],
-        'banners' => [
+        'userBanners' => [
             'url' => '/cabinet/banners/read/list',
+            'required' => [],
+            'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
+        ],
+        'administrationBanners' => [
+            'url' => '/administration/banners/read/list',
             'required' => [],
             'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
         ],
