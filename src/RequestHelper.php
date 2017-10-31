@@ -11,18 +11,33 @@ class RequestHelper
      * url - путь к объекту api, required - список обязательных полей, filter - список доступных фильтров
      */
     public static $settingsForGet = [
-        'auth' => [
+        'userAuth' => [
             'url' => '/authorization/user',
             'required' => ['userName','userPassword'],
             'filter' => [],
+        ],
+        'administratorAuth' => [
+            'url' => '/authorization/employer',
+            'required' => ['userName','userPassword'],
+            'filter' => [],
+        ],
+        'users' => [
+            'url' => '/administration/read/users/list',
+            'required' => [],
+            'filter' => ['limit','fields','statuses'],
         ],
         'offer' => [
             'url' => '/cabinet/user/read/offer',
             'required' => ['offerId'],
             'filter' => [],
         ],
-        'offers' => [
+        'userOffers' => [
             'url' => '/cabinet/user/read/offers',
+            'required' => [],
+            'filter' => ['merchantManagerId','categoryId','mainFilterItem','dateInsertedFrom','dateInsertedTo','active','types','fields','offset','limit','orderByField','orderByMethod'],
+        ],
+        'administratorOffers' => [
+            'url' => '/administration/offers/read/list',
             'required' => [],
             'filter' => ['merchantManagerId','categoryId','mainFilterItem','dateInsertedFrom','dateInsertedTo','active','types','fields','offset','limit','orderByField','orderByMethod'],
         ],
@@ -31,8 +46,13 @@ class RequestHelper
             'required' => [],
             'filter' => [],
         ],
-        'banners' => [
+        'userBanners' => [
             'url' => '/cabinet/banners/read/list',
+            'required' => [],
+            'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
+        ],
+        'administratorBanners' => [
+            'url' => '/administration/banners/read/list',
             'required' => [],
             'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
         ],
