@@ -26,7 +26,7 @@ class RequestHelper
             'required' => [],
             'filter' => ['limit','fields','statuses'],
         ],
-        'offer' => [
+        'userOffer' => [
             'url' => '/cabinet/user/read/offer',
             'required' => ['offerId'],
             'filter' => [],
@@ -35,6 +35,11 @@ class RequestHelper
             'url' => '/cabinet/user/read/offers',
             'required' => [],
             'filter' => ['merchantManagerId','categoryId','mainFilterItem','dateInsertedFrom','dateInsertedTo','active','types','fields','offset','limit','orderByField','orderByMethod'],
+        ],
+        'administratorOffer' => [
+            'url' => '/administration/offer/read',
+            'required' => ['offerId'],
+            'filter' => [],
         ],
         'administratorOffers' => [
             'url' => '/administration/offers/read/list',
@@ -55,6 +60,11 @@ class RequestHelper
             'url' => '/administration/banners/read/list',
             'required' => [],
             'filter' => ['fields','types','offerId','hidden','active','width','height','mainFilterItem','dateInsertedFrom','dateInsertedTo','offset','limit','orderByField','orderByMethod',],
+        ],
+        'administratorBanner' => [
+            'url' => '/administration/banner/read',
+            'required' => [],
+            'filter' => ['fields', 'bannerId'],
         ],
         'countries' => [
             'url' => '/cabinet/countries/read/list',

@@ -31,7 +31,7 @@ class Request
     protected $apiCallCount;
 
     protected $dualRoutes = [
-        'offers', 'banners'
+        'offers', 'offer', 'banners', 'banner'
     ];
 
     /**
