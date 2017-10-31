@@ -32,6 +32,10 @@ class Request extends Object
 
     protected $apiCallCount;
 
+    protected $dualRoutes = [
+        'offers', 'banners', 'offer', 'banner'
+    ];
+
     /**
      * Метод используется для получения данных из трекера
      * @param $object string Название объекта, для которого будет осуществлен запрос к трекеру
@@ -57,6 +61,10 @@ class Request extends Object
      */
     public function get($object, $params = [], $iteration = 0)
     {
+        if (in_array($object, $this->dualRoutes)) {
+            $status = ($this->connection->isAdmin === false) ? 'user' : 'administrator';
+            $object = $status . ucfirst($object);
+        }
         $this->object = $object;
         $this->requiredParams = RequestHelper::getObjectSettings($object, 'required');
         $this->filterParams = RequestHelper::getObjectSettings($object, 'filter');
@@ -69,7 +77,7 @@ class Request extends Object
         if (empty($url))
             throw new RequestException("Can't find url for this object: {$object}");
 
-        $authToken = $object == 'auth' ? null : $this->connection->getAuthToken();
+        $authToken = in_array($object, ['userAuth', 'administratorAuth']) ? null : $this->connection->getAuthToken();
 
         $response = $this->queryApi($url, $authToken, $this->prepareParams($params), $this->method);
 
