@@ -11,6 +11,11 @@ class Connection extends Component
     public $login = '';
     public $password = '';
     public $connectionTryLimit = 3;
+    public $isAdmin = false;
+    /**
+     * @var bool
+     */
+    public $cacheConnect = true;
 
     const API_SESSION_KEY = 'apiAuth';
 
@@ -31,8 +36,9 @@ class Connection extends Component
         $params = ['apiUrl', 'login', 'password'];
 
         foreach ($params as $param) {
-            if (empty($this->{$param}) && !is_string($this->{$param}))
+            if (empty($this->{$param}) && !is_string($this->{$param})) {
                 throw new ConnectionConfigException('You must set param '.$param);
+            }
         }
     }
 
@@ -60,11 +66,18 @@ class Connection extends Component
      */
     public function getAuthToken()
     {
-        $authToken = Yii::$app->session->get(self::API_SESSION_KEY, null);
-
-        if (empty($authToken)) {
+        if ($this->cacheConnect !== true) {
             $authToken = $this->connect();
+            return $authToken;
         }
+
+        if (Yii::$app->session->has(self::API_SESSION_KEY)) {
+            return Yii::$app->session->get(self::API_SESSION_KEY);
+        }
+
+        $authToken = $this->connect();
+
+        Yii::$app->session->set(self::API_SESSION_KEY, $authToken);
 
         return $authToken;
     }
@@ -82,7 +95,14 @@ class Connection extends Component
         }
 
         $request = new Request(['connection' => $this]);
-        $jsonApiResponse = $request->get('auth', [
+
+        if ($this->isAdmin === false) {
+            $authRoute = 'userAuth';
+        } else {
+            $authRoute = 'administratorAuth';
+        }
+
+        $jsonApiResponse = $request->get($authRoute, [
             'userName' => $this->login,
             'userPassword' => $this->password,
         ]);
@@ -92,7 +112,6 @@ class Connection extends Component
         if (empty($apiResponse->authToken))
             throw new ConnectionException("Can't authorize! Check user name or password!");
 
-        Yii::$app->session->set(self::API_SESSION_KEY, $apiResponse->authToken);
         return $apiResponse->authToken;
     }
 }
