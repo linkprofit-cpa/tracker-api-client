@@ -1,6 +1,7 @@
 <?php
 namespace linkprofit\trackerApiClient;
 
+use linkprofit\trackerApiClient\exceptions\ConnectionException;
 use linkprofit\trackerApiClient\exceptions\RequestException;
 use linkprofit\trackerApiClient\exceptions\ResponseException;
 use linkprofit\trackerApiClient\exceptions\InvalidParamException;
@@ -55,6 +56,7 @@ class Request
      * @param $iteration int
      * @throws RequestException
      * @throws ResponseException
+     * @throws ConnectionException
      * @return string ApiResponse
      */
     public function get($object, $params = [], $iteration = 0)
