@@ -2,6 +2,9 @@
 namespace linkprofit\trackerApiClient\builder;
 
 use linkprofit\trackerApiClient\Connection;
+use linkprofit\trackerApiClient\exceptions\ConnectionException;
+use linkprofit\trackerApiClient\exceptions\RequestException;
+use linkprofit\trackerApiClient\exceptions\ResponseException;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
 abstract class TrackerBuilder
@@ -34,6 +37,9 @@ abstract class TrackerBuilder
 
     /**
      * @param $connection Connection;
+     * @throws RequestException
+     * @throws ResponseException
+     * @throws ConnectionException
      * @return mixed
      */
     public function get(Connection $connection = null)
@@ -46,13 +52,12 @@ abstract class TrackerBuilder
             return $this->handle();
         }
 
-        $cache = new FilesystemCache();
         $key = $this->entity . md5(json_encode($this->params));
-        if (!$cache->has($key)) {
+        if (!$connection->getCacheObject()->has($key)) {
             $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
-            $cache->set($key, $this->data, $this->cacheDuration);
+            $connection->getCacheObject()->set($key, $this->data, $this->cacheDuration);
         } else {
-            $this->data = $cache->get($key);
+            $this->data = $connection->getCacheObject()->get($key);
         }
 
         return $this->handle();

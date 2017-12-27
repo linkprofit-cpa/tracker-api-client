@@ -3,7 +3,10 @@ namespace linkprofit\trackerApiClient;
 
 use linkprofit\trackerApiClient\exceptions\ConnectionConfigException;
 use linkprofit\trackerApiClient\exceptions\ConnectionException;
-use Symfony\Component\Cache\Simple\FilesystemCache;
+use linkprofit\trackerApiClient\exceptions\RequestException;
+use linkprofit\trackerApiClient\exceptions\ResponseException;
+use Symfony\Component\Cache\Simple\AbstractCache;
+use Symfony\Component\Cache\Simple\MemcachedCache;
 
 class Connection
 {
@@ -18,19 +21,29 @@ class Connection
     public $cacheConnect = true;
 
     /**
-     * @var FilesystemCache
+     * @var AbstractCache
      */
-    protected $fileCache;
+    protected $cache;
 
     const API_SESSION_KEY = 'apiAuth';
 
     /**
      * Инициализирует компонент
+     * @throws ConnectionConfigException
      */
     public function __construct()
     {
         $this->checkConfig();
-        $this->fileCache = new FilesystemCache();
+        $this->getCacheObject();
+    }
+
+    public function getCacheObject(){
+        if(empty($this->cache)){
+            $memcached = new \Memcached();
+            $memcached->addServer('localhost', 11211);
+            $this->cache = new MemcachedCache($memcached);
+        }
+        return $this->cache;
     }
 
     /**
@@ -72,6 +85,9 @@ class Connection
     /**
      * Возвращает authToken для обращения к api
      * @return string
+     * @throws ConnectionException
+     * @throws RequestException
+     * @throws ResponseException
      */
     public function getAuthToken()
     {
@@ -80,13 +96,13 @@ class Connection
             return $authToken;
         }
 
-        if ($this->fileCache->has(self::API_SESSION_KEY)) {
-            return $this->fileCache->get(self::API_SESSION_KEY);
+        if ($this->cache->has(self::API_SESSION_KEY)) {
+            return $this->cache->get(self::API_SESSION_KEY);
         }
 
         $authToken = $this->connect();
 
-        $this->fileCache->set(self::API_SESSION_KEY, $authToken);
+        $this->cache->set(self::API_SESSION_KEY, $authToken);
 
         return $authToken;
     }
@@ -94,8 +110,10 @@ class Connection
     /**
      * Обращается на api для получения authToken, вовзращает authToken.
      * @param int $try
-     * @throws ConnectionException
      * @return string authToken
+     * @throws ConnectionException
+     * @throws RequestException
+     * @throws ResponseException
      */
     public function connect($try = 1)
     {
