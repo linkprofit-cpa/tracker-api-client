@@ -13,7 +13,6 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "ext-memcache": ">=3.0",
         "symfony/cache": "*"
     },
     "autoload": {
