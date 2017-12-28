@@ -53,11 +53,11 @@ abstract class TrackerBuilder
         }
 
         $key = $this->entity . md5(json_encode($this->params));
-        if (!$connection->getCacheObject()->has($key)) {
+        if (!$this->connection->getCacheObject()->has($key)) {
             $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
-            $connection->getCacheObject()->set($key, $this->data, $this->cacheDuration);
+            $this->connection->getCacheObject()->set($key, $this->data, $this->cacheDuration);
         } else {
-            $this->data = $connection->getCacheObject()->get($key);
+            $this->data = $this->connection->getCacheObject()->get($key);
         }
 
         return $this->handle();
