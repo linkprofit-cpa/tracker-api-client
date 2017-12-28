@@ -76,23 +76,21 @@ class Request
             throw new RequestException('These params are required for this call: '.implode(', ', $this->requiredParams));
         if (empty($url))
             throw new RequestException("Can't find url for this object: {$object}");
-
         $authToken = in_array($object, ['userAuth', 'administratorAuth']) ? null : $this->connection->getAuthToken();
 
         $response = $this->queryApi($url, $authToken, $this->prepareParams($params), $this->method);
-
         try {
             $this->parseResponse($response, $url, $params);
         } catch (ResponseException $e) {
             if ($e->getCode() == 111 || $e->getCode() == 110) {
-                $this->connection->connect($iteration);
+                $this->connection->cacheConnect=false;
+                $this->connection->getAuthToken();
                 $response = $this->get($object, $params, ++$iteration);
             } else {
                 throw $e;
             }
         }
-
-        return $response;
+        return trim($response);
     }
 
     /**
@@ -142,7 +140,6 @@ class Request
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_POSTFIELDS => json_encode($params),
-            CURLOPT_VERBOSE => true,
         ];
 
         curl_setopt_array($ch, $curlOptions);
@@ -150,7 +147,7 @@ class Request
         $response = curl_exec($ch);
         $this->requestHttpCode = curl_errno($ch) == 28 ? 'timeout' : curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        return !$response ? '' : $response;
+        return !$response ? '' : trim($response);
     }
 
     /**
