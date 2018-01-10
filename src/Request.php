@@ -187,6 +187,7 @@ class Request extends Object
                 case 116 : throw new ResponseException( 'Такой пользователь уже существует в системе', 116, $response, $route, $params); break;
                 case 117 : throw new ResponseException( 'Оффер с таким именем уже существует', 117, $response, $route, $params); break;
                 case 118 : throw new ResponseException( 'Комиссия оффера с таким именем для этого оффера уже существует', 118, $response, $route, $params); break;
+                case 120 : throw new ResponseException( 'Оффер не найден', 120, $response, $route, $params); break;
                 case 121 : throw new ResponseException( 'Баннер уже существует в системе', 121, $response, $route, $params); break;
                 case 127 : throw new ResponseException( 'Сайт с таким доменным именем уже закреплен за вебмастером', 127, $response, $route, $params); break;
                 case 128 : throw new ResponseException( 'Один и тот же тип траффика добавлен в одобренные и запрещенные типы траффика', 128, $response, $route, $params); break;
