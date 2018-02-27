@@ -44,6 +44,9 @@ abstract class TrackerBuilder
      */
     public function get(Connection $connection = null)
     {
+        if(empty($this->connection) && empty($connection)){
+            throw new ConnectionException();
+        }
         if (!empty($connection)) {
             $this->connection = $connection;
         }
@@ -53,11 +56,9 @@ abstract class TrackerBuilder
         }
 
         $key = $this->entity . md5(json_encode($this->params));
-        if (!$this->connection->getCacheObject()->has($key)) {
+        if (!$this->data = $this->connection->getCacheObject()->get($key)) {
             $this->data = json_decode($this->connection->request()->get($this->entity, $this->params), 1);
             $this->connection->getCacheObject()->set($key, $this->data, $this->cacheDuration);
-        } else {
-            $this->data = $this->connection->getCacheObject()->get($key);
         }
 
         return $this->handle();
