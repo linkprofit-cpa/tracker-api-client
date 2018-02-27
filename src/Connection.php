@@ -21,7 +21,7 @@ class Connection
     public $cacheConnect = true;
 
     /**
-     * @var AbstractCache
+     * @var \Memcached
      */
     protected $cache;
 
@@ -33,15 +33,13 @@ class Connection
      */
     public function __construct()
     {
-        $this->checkConfig();
         $this->getCacheObject();
     }
 
     public function getCacheObject(){
         if(empty($this->cache)){
-            $memcached = new \Memcached();
-            $memcached->addServer('localhost', 11211);
-            $this->cache = new MemcachedCache($memcached);
+            $this->cache = new \Memcached();
+            $this->cache->addServer('localhost', 11211);
         }
         return $this->cache;
     }
@@ -55,7 +53,7 @@ class Connection
         $params = ['apiUrl', 'login', 'password'];
 
         foreach ($params as $param) {
-            if (empty($this->{$param}) && !is_string($this->{$param})) {
+            if (empty($this->{$param}) || !is_string($this->{$param})) {
                 throw new ConnectionConfigException('You must set param '.$param);
             }
         }
@@ -96,8 +94,8 @@ class Connection
             return $authToken;
         }
 
-        if ($this->cache->has(self::API_SESSION_KEY)) {
-            return $this->cache->get(self::API_SESSION_KEY);
+        if ($authToken = $this->cache->get(self::API_SESSION_KEY)) {
+            return $authToken;
         }
 
         $authToken = $this->connect();
@@ -111,12 +109,14 @@ class Connection
      * Обращается на api для получения authToken, вовзращает authToken.
      * @param int $try
      * @return string authToken
+     * @throws ConnectionConfigException
      * @throws ConnectionException
      * @throws RequestException
      * @throws ResponseException
      */
     public function connect($try = 1)
     {
+        $this->checkConfig();
         if ($try > $this->connectionTryLimit) {
             throw new ConnectionException("Can't authorize! The reconnection limit exhausted");
         }
