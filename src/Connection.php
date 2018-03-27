@@ -2,8 +2,8 @@
 namespace linkprofit\trackerApiClient;
 use Yii;
 use yii\base\Component;
-use app\components\TrackerApi\exceptions\ConnectionConfigException;
-use app\components\TrackerApi\exceptions\ConnectionException;
+use linkprofit\trackerApiClient\exceptions\ConnectionException;
+use linkprofit\trackerApiClient\exceptions\ConnectionConfigException;
 
 class Connection extends Component
 {
